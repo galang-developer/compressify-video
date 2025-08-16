@@ -64,7 +64,7 @@ Proyek ini terbuka untuk kontribusi! Jika ingin berkontribusi:
 Proyek ini dilisensikan di bawah **MIT License**. Lihat [LICENSE](LICENSE) untuk detail lebih lanjut.  
 
 **✨ Dibuat dengan ❤️ oleh Galang Developer**  
-🔗 [GitHub](https://github.com/galang-developer) | 🌐 [Portfolio](https://galang.dev)  
+🔗 [GitHub](https://github.com/galang-developer) | 🌐 [Portfolio](https://galang-developer.github.io/)  
 
 ### **🎉 Selamat Mencoba!**  
 Jika ada pertanyaan atau masalah, silakan buka **[Issue](https://github.com/galang-developer/compressify-video/issues)**.  
