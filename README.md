@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# **📂 Compressify - Kompres Video Online dengan Next.js**  
 
-## Getting Started
+**Compressify** adalah aplikasi web modern untuk mengkompres video secara online dengan mudah, dibangun menggunakan **Next.js**. Aplikasi ini cocok untuk pengguna yang ingin mengurangi ukuran video tanpa kehilangan kualitas signifikan.  
 
-First, run the development server:
+🚀 **Fitur Unggulan**:  
+- Kompres video dengan cepat dan efisien.  
+- Antarmuka pengguna yang intuitif dan responsif.  
+- Dukungan berbagai format video (MP4, MOV, AVI, dll).  
+- Optimasi menggunakan teknologi terbaru Next.js.  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## **🎯 Cara Memulai**  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **Persyaratan**  
+- Node.js (v18 atau lebih baru)  
+- NPM / Yarn / PNPM / Bun  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### **Instalasi**  
+1. **Clone repository**:  
+   ```bash
+   git clone https://github.com/galang-developer/compressify-video.git
+   cd compressify-video
+   ```  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Install dependencies**:  
+   ```bash
+   npm install
+   # atau
+   yarn install
+   # atau
+   pnpm install
+   ```  
 
-## Learn More
+3. **Jalankan Aplikasi**:  
+   ```bash
+   npm run dev
+   # atau
+   yarn dev
+   ```  
+   Buka [http://localhost:3000](http://localhost:3000) di browser.  
 
-To learn more about Next.js, take a look at the following resources:
+## **🛠 Teknologi yang Digunakan**  
+- ⚛️ **Next.js** (App Router) - Framework React untuk performa optimal.  
+- 🎨 **Tailwind CSS** - Styling yang cepat dan mudah dikustomisasi.  
+- 🔄 **FFmpeg.wasm** - Kompres video langsung di browser.  
+- 📱 **Responsive Design** - Beradaptasi dengan semua perangkat.  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## **🚀 Cara Deploy ke Vercel**  
+Compressify bisa di-deploy dengan mudah di **Vercel** dalam hitungan menit:  
+1. **Daftar di [Vercel](https://vercel.com)** (jika belum punya akun).  
+2. **Import repository GitHub** ini.  
+3. **Klik Deploy** dan biarkan Vercel menangani sisanya!  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+🔗 **Link Demo**: [https://compressify-video.vercel.app](https://compressify-video.vercel.app) *(contoh)*  
 
-## Deploy on Vercel
+## **💡 Kontribusi**  
+Proyek ini terbuka untuk kontribusi! Jika ingin berkontribusi:  
+1. Fork repository ini.  
+2. Buat branch baru (`git checkout -b fitur-baru`).  
+3. Commit perubahan (`git commit -m "Tambahkan fitur X"`).  
+4. Push ke branch (`git push origin fitur-baru`).  
+5. Buat **Pull Request**.  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## **📝 Lisensi**  
+Proyek ini dilisensikan di bawah **MIT License**. Lihat [LICENSE](LICENSE) untuk detail lebih lanjut.  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**✨ Dibuat dengan ❤️ oleh Galang Developer**  
+🔗 [GitHub](https://github.com/galang-developer) | 🌐 [Portfolio](https://galang.dev)  
+
+### **🎉 Selamat Mencoba!**  
+Jika ada pertanyaan atau masalah, silakan buka **[Issue](https://github.com/galang-developer/compressify-video/issues)**.  
+
+**⭐ Jangan lupa bintang di GitHub jika project ini bermanfaat!** ⭐  
+
+**📌 Catatan**:  
+- Pastikan sudah menginstall **FFmpeg** jika ingin menjalankan kompresi di lingkungan lokal.  
+- Aplikasi ini masih dalam pengembangan, fitur mungkin berubah sewaktu-waktu.  
+
+**Happy Coding! 🚀**
