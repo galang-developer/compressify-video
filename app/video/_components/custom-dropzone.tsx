@@ -4,13 +4,17 @@ import ReactDropzone from "react-dropzone";
 import { toast } from "sonner";
 import { Projector } from "./projector";
 
-type CustomDropZoneProps = {
-    handleUpload: (files: File) => void;
-    acceptedFiles: { [key: string]: string[] };
-    disabled?: boolean;
+type Language = 'en' | 'id';
+
+type Translations = {
+    [key in Language]: {
+        errorTitle: string;
+        errorDescription: string;
+        instructions: [string, string, string];
+    };
 };
 
-const translations = {
+const translations: Translations = {
     en: {
         errorTitle: "Error uploading your file(s)",
         errorDescription: "Allowed files: Audio, Video and Images.",
@@ -31,32 +35,38 @@ const translations = {
     }
 };
 
+type CustomDropZoneProps = {
+    handleUpload: (files: File) => void;
+    acceptedFiles: { [key: string]: string[] };
+    disabled?: boolean;
+};
+
 export const CustomDropZone = ({
     handleUpload,
     acceptedFiles,
     disabled,
 }: CustomDropZoneProps) => {
     const [isHover, setIsHover] = useState<boolean>(false);
-    const userLanguage = navigator.language || 'en';
-    const language = userLanguage.startsWith('id') ? 'id' : 'en';
+    const [language, setLanguage] = useState<Language>('id');
+
+    useState(() => {
+        const userLanguage = typeof navigator !== 'undefined' ? navigator.language : 'id';
+        setLanguage(userLanguage.startsWith('id') ? 'id' : 'en');
+    });
+
     const t = translations[language];
 
     const handleHover = (): void => setIsHover(true);
     const handleExitHover = (): void => setIsHover(false);
-    const onDrop = (files: File[]) => {
-        handleUpload(files[0]);
-        handleExitHover();
+
+    const onDrop = (files: File[]): void => {
+        if (files.length > 0) {
+            handleUpload(files[0]);
+            handleExitHover();
+        }
     };
 
-    const onError = () => {
-        handleExitHover();
-        toast.error(t.errorTitle, {
-            description: t.errorDescription,
-            duration: 5000,
-        });
-    };
-
-    const onDropRejected = () => {
+    const showError = (): void => {
         handleExitHover();
         toast.error(t.errorTitle, {
             description: t.errorDescription,
@@ -72,8 +82,8 @@ export const CustomDropZone = ({
             onDrop={onDrop}
             accept={acceptedFiles}
             multiple={false}
-            onError={onError}
-            onDropRejected={onDropRejected}
+            onError={showError}
+            onDropRejected={showError}
         >
             {({ getRootProps, getInputProps }) => (
                 <div

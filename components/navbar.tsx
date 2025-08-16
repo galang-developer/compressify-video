@@ -1,6 +1,16 @@
 import Link from "next/link";
 
-const translations = {
+type Language = 'en' | 'id';
+
+type Translations = {
+    [key in Language]: {
+        brandName: string;
+        ctaButton: string;
+        ctaButtonMobile: string;
+    };
+};
+
+const translations: Translations = {
     en: {
         brandName: "Compessify",
         ctaButton: "Condense Now",
@@ -13,10 +23,9 @@ const translations = {
     }
 };
 
-export const Navbar = () => {
-    const userLanguage = navigator.language || 'en';
-    const language = userLanguage.startsWith('id') ? 'id' : 'en';
-    const t = translations[language];
+export const Navbar = ({ language = 'id' }: { language?: string }) => {
+    const lang: Language = language === 'en' ? 'en' : 'id';
+    const t = translations[lang];
 
     return (
         <nav className="fixed top-0 left-6 lg:left-8 right-6 lg:right-8 py-6 lg:pt-8 pb-0 z-30">

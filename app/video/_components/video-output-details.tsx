@@ -7,8 +7,22 @@ import { formatTime } from "@/utils/convert";
 import { FileActions } from "@/utils/types";
 import { motion } from "framer-motion";
 import { BadgeCheck } from "lucide-react";
+import { useState, useEffect } from "react";
 
-const translations = {
+type Language = 'en' | 'id';
+
+type Translations = {
+    outputFile: string;
+    download: string;
+    newFileSize: string;
+    sizeReducedPercent: string;
+    originalFileSize: string;
+    sizeReduced: string;
+    timeTaken: string;
+    notAvailable: string;
+};
+
+const translations: Record<Language, Translations> = {
     en: {
         outputFile: "Output file",
         download: "Download",
@@ -31,17 +45,23 @@ const translations = {
     }
 };
 
+type VideoOutputDetailsProps = {
+    videoFile: FileActions;
+    timeTaken?: number;
+};
+
 export const VideoOutputDetails = ({
     videoFile,
     timeTaken,
-}: {
-    videoFile: FileActions;
-    timeTaken?: number;
-}) => {
-    const userLanguage = navigator.language || 'en';
-    const language = userLanguage.startsWith('id') ? 'id' : 'en';
-    const t = translations[language];
+}: VideoOutputDetailsProps) => {
+    const [language, setLanguage] = useState<Language>('id');
 
+    useEffect(() => {
+        const userLanguage = typeof navigator !== 'undefined' ? navigator.language : 'id';
+        setLanguage(userLanguage.startsWith('id') ? 'id' : 'en');
+    }, []);
+
+    const t = translations[language];
     const outputFileSize = calculateBlobSize(videoFile.outputBlob);
     const { sizeReduced, percentage } = reduceSize(
         videoFile.fileSize,

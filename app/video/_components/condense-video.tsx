@@ -21,7 +21,18 @@ import convertFile from "@/utils/convert";
 import { VideoCondenseProgress } from "./video-condense-progress";
 import { VideoOutputDetails } from "./video-output-details";
 
-const translations = {
+type Language = 'en' | 'id';
+
+type Translations = {
+    [key in Language]: {
+        condense: string;
+        error: string;
+        loading: string;
+        success: string;
+    };
+};
+
+const translations: Translations = {
     en: {
         condense: "Condense",
         error: "Error condensing video",
@@ -34,11 +45,18 @@ const translations = {
         loading: "Mengunduh paket yang diperlukan...",
         success: "Siap untuk kompres"
     }
-}
+};
 
 const CondenseVideo = () => {
-    const userLanguage = navigator.language || 'en';
-    const language = userLanguage.startsWith('id') ? 'id' : 'en';
+    // Default to 'id' if navigator is not available (server-side)
+    const [language, setLanguage] = useState<Language>('id');
+
+    useEffect(() => {
+        // Client-side language detection
+        const userLanguage = navigator?.language || 'id';
+        setLanguage(userLanguage.startsWith('id') ? 'id' : 'en');
+    }, []);
+
     const t = translations[language];
 
     const [videoFile, setVideoFile] = useState<FileActions>();
@@ -59,6 +77,7 @@ const CondenseVideo = () => {
         twitterCompressionCommand: false,
         whatsappStatusCompressionCommand: false,
     });
+
     const handleUpload = (file: File) => {
         setVideoFile({
             fileName: file.name,
@@ -92,11 +111,11 @@ const CondenseVideo = () => {
         const ffmpeg = ffmpegRef.current;
         await ffmpeg.load({
             coreURL: await toBlobURL(
-                `http://localhost:3000/download/ffmpeg-core.js`,
+                `https://compressify-video.vercel.app/download/ffmpeg-core.js`,
                 "text/javascript"
             ),
             wasmURL: await toBlobURL(
-                `http://localhost:3000/download/ffmpeg-core.wasm`,
+                `https://compressify-video.vercel.app/download/ffmpeg-core.wasm`,
                 "application/wasm"
             ),
         });
@@ -114,7 +133,7 @@ const CondenseVideo = () => {
             });
     };
 
-    useEffect(() => loadWithToast(), []);
+    useEffect(() => loadWithToast(), [language]);
 
     const condense = async () => {
         if (!videoFile) return;

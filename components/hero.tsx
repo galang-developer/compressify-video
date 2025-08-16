@@ -1,6 +1,18 @@
-import Link from "next/link";
+"use client";
 
-const translations = {
+import Link from "next/link";
+import { useState, useEffect } from "react";
+
+type Language = 'en' | 'id';
+
+type Translations = {
+    tagline: string;
+    title: string;
+    subtitle: string;
+    ctaButton: string;
+};
+
+const translations: Record<Language, Translations> = {
     en: {
         tagline: "🎉 Let's do it folks.",
         title: "Compressify Videos",
@@ -16,9 +28,19 @@ const translations = {
 };
 
 const Hero = () => {
-    const userLanguage = navigator.language || 'en';
-    const language = userLanguage.startsWith('id') ? 'id' : 'en';
+    const [language, setLanguage] = useState<Language>('id');
+
+    useEffect(() => {
+        const userLanguage = typeof navigator !== 'undefined' ? navigator.language : 'id';
+        setLanguage(userLanguage.startsWith('id') ? 'id' : 'en');
+    }, []);
+
     const t = translations[language];
+
+    const processedSubtitle = t.subtitle.replace(
+        '<span>',
+        '<span class="font-bold text-purple-700">'
+    );
 
     return (
         <div className="pt-5 md:pt-10 px-6 lg:px-0">
@@ -31,16 +53,13 @@ const Hero = () => {
             <h2
                 className="sm:text-lg max-w-xl mx-auto text-gray-500 text-center mt-5"
                 dangerouslySetInnerHTML={{
-                    __html: t.subtitle.replace(
-                        '<span>',
-                        '<span class="font-bold text-purple-700">'
-                    )
+                    __html: processedSubtitle
                 }}
             />
             <div className="flex gap-4 items-center justify-center mt-10 mb-10">
                 <Link
                     className="bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-purple-700 via-purple-950 to-purple-950 rounded-lg text-white/90 relative px-3.5 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-500 focus:ring-purple-950 flex-shrink-0"
-                    href={"/video"}
+                    href="/video"
                 >
                     {t.ctaButton}
                 </Link>

@@ -1,8 +1,18 @@
 import { bytesToSize } from "@/utils/bytesToSize";
 import { FileActions } from "@/utils/types";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
-const translations = {
+type Language = 'en' | 'id';
+
+type Translations = {
+    fileInput: string;
+    clearButton: string;
+    fileName: string;
+    fileSize: string;
+};
+
+const translations: Record<Language, Translations> = {
     en: {
         fileInput: "File Input",
         clearButton: "Clear",
@@ -17,15 +27,23 @@ const translations = {
     }
 };
 
+type VideoInputDetailsProps = {
+    videoFile: FileActions;
+    onClear: () => void;
+};
+
 export const VideoInputDetails = ({
     videoFile,
     onClear,
-}: {
-    videoFile: FileActions;
-    onClear: () => void;
-}) => {
-    const userLanguage = navigator.language || 'en';
-    const language = userLanguage.startsWith('id') ? 'id' : 'en';
+}: VideoInputDetailsProps) => {
+    const [language, setLanguage] = useState<Language>('id');
+
+    useEffect(() => {
+        // Client-side language detection
+        const userLanguage = typeof navigator !== 'undefined' ? navigator.language : 'id';
+        setLanguage(userLanguage.startsWith('id') ? 'id' : 'en');
+    }, []);
+
     const t = translations[language];
 
     return (

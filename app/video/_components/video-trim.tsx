@@ -4,7 +4,15 @@ import { VideoSlider } from "../../../components/ui/video-slider";
 import { useEffect, useState } from "react";
 import { calculateTimeInHoursMinutesSeconds } from "../../../utils/timeConverter";
 
-const translations = {
+type Language = 'en' | 'id';
+
+type Translations = {
+  trimTitle: string;
+  startTime: string;
+  endTime: string;
+};
+
+const translations: Record<Language, Translations> = {
   en: {
     trimTitle: "Trim Video",
     startTime: "Start Time",
@@ -29,13 +37,15 @@ export const VideoTrim = ({
     disable,
 }: VideoTrimProps) => {
     const [videoEndTime, setVideoEndTime] = useState(0);
+    const [language, setLanguage] = useState<Language>('id');
     const { customStartTime, customEndTime } = videoSettings;
     const startTime = calculateTimeInHoursMinutesSeconds(customStartTime);
     const endTime = calculateTimeInHoursMinutesSeconds(customEndTime);
-    
-    const userLanguage = navigator.language || 'en';
-    const language = userLanguage.startsWith('id') ? 'id' : 'en';
-    const t = translations[language];
+
+    useEffect(() => {
+        const userLanguage = typeof navigator !== 'undefined' ? navigator.language : 'id';
+        setLanguage(userLanguage.startsWith('id') ? 'id' : 'en');
+    }, []);
 
     useEffect(() => {
         const video = document.getElementById(
@@ -51,13 +61,16 @@ export const VideoTrim = ({
                 });
                 setVideoEndTime(durationInSeconds);
             };
+
             video.addEventListener("loadedmetadata", handleLoadedMetadata);
 
             return () => {
                 video.removeEventListener("loadedmetadata", handleLoadedMetadata);
             };
         }
-    }, []);
+    }, [videoSettings, onVideoSettingsChange]);
+
+    const t = translations[language];
 
     return (
         <motion.div

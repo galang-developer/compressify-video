@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
     QualityType,
     VideoFormats,
@@ -79,14 +79,28 @@ const translations: Record<'en' | 'id', TranslationKeys> = {
     }
 };
 
+const qualityOptions = Object.values(QualityType).map(value => ({
+    value,
+    label: value
+}));
+
+const formatOptions = Object.values(VideoFormats).map(value => ({
+    value,
+    label: value
+}));
+
 export const VideoInputControl = ({
     videoSettings,
     onVideoSettingsChange,
     disable,
 }: VideoInputControlProps) => {
-    // Deteksi bahasa pengguna
-    const userLanguage = navigator.language || 'en';
-    const language = userLanguage.startsWith('id') ? 'id' : 'en';
+    const [language, setLanguage] = useState<'en' | 'id'>('id');
+
+    useEffect(() => {
+        const userLanguage = typeof navigator !== 'undefined' ? navigator.language : 'id';
+        setLanguage(userLanguage.startsWith('id') ? 'id' : 'en');
+    }, []);
+
     const t = translations[language];
 
     return (
@@ -109,7 +123,7 @@ export const VideoInputControl = ({
                         checked={videoSettings.removeAudio}
                     />
                 </div>
-                <div className={`flex justify-between items-center border-b mb-2 pb-2`}>
+                <div className="flex justify-between items-center border-b mb-2 pb-2">
                     <p>{t.condenseTwitter}</p>
                     <Switch
                         disabled={disable}
@@ -143,16 +157,15 @@ export const VideoInputControl = ({
                                 <Select
                                     disabled={disable}
                                     value={videoSettings.quality}
-                                    onValueChange={(value: string) => {
-                                        const quality = value as QualityType;
-                                        onVideoSettingsChange({ ...videoSettings, quality });
-                                    }}
+                                    onValueChange={(value: QualityType) =>
+                                        onVideoSettingsChange({ ...videoSettings, quality: value })
+                                    }
                                 >
                                     <SelectTrigger className="w-[100px] text-sm">
                                         <SelectValue placeholder={t.selectQuality} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {quality.map(({ value }) => (
+                                        {qualityOptions.map(({ value }) => (
                                             <SelectItem value={value} key={value}>
                                                 {t.qualityOptions[value]}
                                             </SelectItem>
@@ -165,16 +178,15 @@ export const VideoInputControl = ({
                                 <Select
                                     disabled={disable}
                                     value={videoSettings.videoType}
-                                    onValueChange={(value: string) => {
-                                        const videoType = value as VideoFormats;
-                                        onVideoSettingsChange({ ...videoSettings, videoType });
-                                    }}
+                                    onValueChange={(value: VideoFormats) =>
+                                        onVideoSettingsChange({ ...videoSettings, videoType: value })
+                                    }
                                 >
                                     <SelectTrigger className="w-[150px] text-sm">
                                         <SelectValue placeholder={t.selectFormat} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {format.map(({ value }) => (
+                                        {formatOptions.map(({ value }) => (
                                             <SelectItem value={value} key={value}>
                                                 {t.formatOptions[value]}
                                             </SelectItem>
@@ -188,13 +200,3 @@ export const VideoInputControl = ({
         </motion.div>
     );
 };
-
-const quality = Object.values(QualityType).map(value => ({
-    value,
-    label: value
-}));
-
-const format = Object.values(VideoFormats).map(value => ({
-    value,
-    label: value
-}));
